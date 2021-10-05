@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+footer {
+    font-family: 'Roboto', sans-serif;
+    margin-top: auto;
+}
+
+.text-center p-1 position-sticky {
+    background-color: rgba(76, 76, 173, 0.5);
+    clear: both;
+    position: absolute;
+    height: 2.5rem;
+    bottom: 0;
+    width: 100%;
+}
+
+body{ height:100vh; margin:0; }
+
+
+footer{ min-height:50px;}

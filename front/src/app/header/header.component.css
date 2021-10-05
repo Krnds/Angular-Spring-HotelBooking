@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+img {
+    width: 10%;
+}
+
+h2 {
+    font-size     : 24px;
+    text-transform: uppercase;
+    font-weight   : 400;
+    position      : absolute;
+    top           : 25%;
+
+}
+
+#hotel-name {
+    position   : absolute;
+    top        : 20px;
+    left       : 90px;
+    font-weight: 600;
+}
+
+.container-fluid > a {
+    text-decoration: none;
+}
+
+
+
+header{ min-height:50px;}
