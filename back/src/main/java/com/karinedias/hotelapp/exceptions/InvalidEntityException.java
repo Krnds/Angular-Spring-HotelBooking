@@ -1,8 +1,8 @@
 package com.karinedias.hotelapp.exceptions;
 
-public class InvalidClientException extends Throwable {
-    
-    public InvalidClientException(String message) {
+public class InvalidEntityException extends Throwable {
+
+    public InvalidEntityException(String message) {
         super(message);
     }
 }
