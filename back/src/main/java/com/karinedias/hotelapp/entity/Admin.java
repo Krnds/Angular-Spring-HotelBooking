@@ -68,7 +68,7 @@ public class Admin {
 
     @Override
     public String toString() {
-        return "Hotel{" +
+        return "Admin{" +
                 "id=" + id +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +

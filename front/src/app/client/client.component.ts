@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-// import { Client} from '../classes/'
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../classes/client';
+import { ClientService } from '../service/client.service';
 
 @Component({
   selector: 'app-client',
@@ -8,14 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ClientComponent implements OnInit {
 
-  newPatient: Client = new Client();
+  newClient: Client = new Client();
 
   clients: Array<Client> = [];
-  // @ViewChild('closebutton') closebuttonelement: any;
+  @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
   error: boolean = false;
-  currentVille: string | undefined;
-  search: String = "";
+  // currentVille: string | undefined;
+  // search: String = "";
 
   constructor(private clientService: ClientService) { }
 
@@ -23,8 +24,18 @@ export class ClientComponent implements OnInit {
     this.loadClients();
   }
 
-  loadClients(): void {
-    this.clientService.loadClients(this.search).subscribe(
+  //TODO: to implement when search bar
+  // loadClients(): void {
+  //   this.clientService.loadClients(this.search).subscribe(
+  //     data => {
+  //       this.clients = data;
+  //       console.log(data);
+  //     }
+  //   );
+  // }
+
+    loadClients(): void {
+    this.clientService.loadClients().subscribe(
       data => {
         this.clients = data;
         console.log(data);
@@ -32,19 +43,17 @@ export class ClientComponent implements OnInit {
     );
   }
 
-
-  editPatient(id?: number): void {
-    this.clientService.getPatient(id).subscribe(data => {
-      this.newPatient = data;
-      this.currentVille = this.newPatient.ville?.nom;
+  editClient(id?: number): void {
+    this.clientService.getClient(id).subscribe(data => {
+      this.newClient = data;
       this.loadClients();
       this.success = true;
     })
   }
 
-  deletePatient(id?: number): void {
+  deleteClient(id?: number): void {
     if (confirm("Voulez-vous vraiment supprimer ce client ?")) {
-      this.clientService.deletePatient(id).subscribe(data => {
+      this.clientService.deleteClient(id).subscribe(data => {
         this.loadClients();
         this.success = true;
       },
@@ -56,14 +65,14 @@ export class ClientComponent implements OnInit {
   }
 
   submitForm(): void {
-    if (this.newPatient.id == undefined) {
-      this.clientService.addPatient(this.newPatient).subscribe(data => {
+    if (this.newClient.id == undefined) {
+      this.clientService.addClient(this.newClient).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
       })
     } else {
-      this.clientService.editPatient(this.newPatient).subscribe(data => {
+      this.clientService.editClient(this.newClient).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
@@ -72,8 +81,9 @@ export class ClientComponent implements OnInit {
 
   }
 
-  comparePatientCity(v1: Ville, v2: Ville): boolean {
-    return v1 != undefined && v2 != undefined && v1.id == v2.id;
-  }
+  //TODO: ???
+  // comparePatientCity(v1: Ville, v2: Ville): boolean {
+  //   return v1 != undefined && v2 != undefined && v1.id == v2.id;
+  // }
 
 }

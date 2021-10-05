@@ -45,7 +45,7 @@ public class ReservationController {
     }
 
 
-    @PostMapping(path = "/add", produces = "application/json")
+    @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Reservation> add(@RequestBody Reservation reservation) {
         try {
             Reservation newReservation = reservationService.add(reservation.getClient(), reservation.getHotel()

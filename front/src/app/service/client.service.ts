@@ -13,31 +13,37 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-  loadPatients(search: String): Observable<client[]> {
-    let searchCondition = ""
-    if (search.length > 0) {
-      searchCondition = "?search=" + search;
-    }
-    console.log("recherche des clients");
-    return this.http.get<Client[]>(environment.baseUrl + "client" + searchCondition, HttpOptions);
+
+  //TODO: add loadClients with search bar
+  // loadClients(search: String): Observable<Client[]> {
+  //   let searchCondition = ""
+  //   if (search.length > 0) {
+  //     searchCondition = "?search=" + search;
+  //   }
+  //   console.log("recherche des clients");
+  //   return this.http.get<Client[]>(environment.apiEndpoint + "client" + searchCondition, HttpOptions);
+  // }
+
+  loadClients() : Observable<Client[]> {
+    return this.http.get<Client[]>(environment.apiEndpoint + "client", HttpOptions);
   }
 
-  addPatient(client: Client): Observable<Client> {
-    return this.http.post<Client>(environment.baseUrl + "client", client, HttpOptions);
+  addClient(client: Client): Observable<Client> {
+    return this.http.post<Client>(environment.apiEndpoint + "client", client, HttpOptions);
   }
 
-  getPatient(id?: number): Observable<Client> {
-    return this.http.get<Client>(environment.baseUrl + "client/" + id, HttpOptions);
+  getClient(id?: number): Observable<Client> {
+    return this.http.get<Client>(environment.apiEndpoint + "client/" + id, HttpOptions);
   }
 
-  editPatient(client: Client): Observable<Client> {
-    return this.http.put<Client>(environment.baseUrl + "client/" + client.id, client, HttpOptions);
+  editClient(client: Client): Observable<Client> {
+    return this.http.put<Client>(environment.apiEndpoint + "client/" + client.id, client, HttpOptions);
   }
 
-  deletePatient(id?: number): Observable<any> {
+  deleteClient(id?: number): Observable<any> {
     console.log("service delete client");
 
-    return this.http.delete<client>(environment.baseUrl + "client/" + id, HttpOptions);
+    return this.http.delete<Client>(environment.apiEndpoint + "client/" + id, HttpOptions);
   }
 }
 

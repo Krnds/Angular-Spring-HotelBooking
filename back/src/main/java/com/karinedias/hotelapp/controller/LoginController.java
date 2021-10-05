@@ -25,13 +25,12 @@ public class LoginController {
 
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Admin> checkLogin(@RequestBody Admin user) {
-        System.out.println("in check login");
         try {
-            System.out.println("LoginController, user in checkLogin = " + user);
             Admin admin = adminRepo.findByUsername(user.getUsername());
-            admin.setPassword("");
+            //TODO: à quoi sert cette ligne ?
+//            admin.setPassword("");
             return ResponseEntity.ok()
-                    .body(user);
+                    .body(admin);
 
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());

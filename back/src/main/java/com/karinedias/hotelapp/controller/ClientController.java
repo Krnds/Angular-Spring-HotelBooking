@@ -45,7 +45,7 @@ public class ClientController {
     }
 
 
-    @PostMapping(path = "/add", produces = "application/json")
+    @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Client> add(@RequestBody Client client) {
         try {
             Client newClient = clientService.add(client.getNomComplet(), client.getTelephone()

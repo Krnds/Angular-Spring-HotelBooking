@@ -1,1 +1,169 @@
-<p>client works!</p>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="alert alert-sucess" role="alert" *ngIf="success">Opération effectuée avec succès</div>
+<div class="alert alert-error" role="alert" *ngIf="error">L'action n'a pas été réalisée</div>
+<h3 class="text-center my-3 mb-5 text-uppercase">Liste des clients</h3>
+
+<div class="d-flex justify-content-around">
+    <!-- TODO: when implement search bar -->
+<!-- <div class="input-group sm mb-3 clearfix w-25">
+    <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un client" aria-describedby="basic-addon1">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadClients()">
+                <span class="material-icons-outlined">search</span></button>
+</div> -->
+<button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#clientModal">
+    Ajouter client
+</button>
+</div>
+
+<body>
+
+    <!-- Button trigger modal -->
+    <div class="d-flex justify-content-center">
+
+    </div>
+    <!-- Modal for adding a new client -->
+    <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <form name="clientForm" method="POST" (submit)="submitForm()" novalidate>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title center" id="exampleModalLabel">Ajouter un client</h5>
+                        <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
+                        <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="nom" name="nom" type="text" placeholder="Nom"
+                                    required [(ngModel)]="newClient.nomComplet">
+                                <label for="lastname">Nom du Client*</label>
+                                <!-- TODO: custom messages pour la validation -->
+                                <div class="invalid-feedback">
+                                    Veuillez choisir un nom.
+                                </div>
+
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="telephone" name="telephone" type="tel"
+                                    placeholder="0123456789" required [(ngModel)]="newClient.telephone">
+                                <label for="telephone">Téléphone*</label>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="email" name="email" type="email"
+                                    placeholder="email@company.com" required [(ngModel)]="newClient.email">
+                                <label for="email">Email*</label>
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="adresse" name="adresse" type="text"
+                                    placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newClient.adresse">
+                                <label for="telephone">Adresse*</label>
+                            </div>
+                        </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Téléphone</th>
+                    <th>Email</th>
+                    <th>Adresse</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let client of clients">
+                    <td>{{client.id}}</td>
+                    <td>{{client.nomComplet}}</td>
+                    <td>{{client.telephone}}</td>
+                    <td>{{client.email}}</td>
+                    <td>{{client.adresse}}</td>
+                    <td>
+
+                        <a class="icon" (click)="editClient(client.id)" data-bs-toggle="modal"
+                            data-bs-target="#editClientModal">
+                            <span class="material-icons">edit</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="icon" (click)="deleteClient(client.id)">
+                            <span class="material-icons">delete</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal for updating a client -->
+    <div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+        data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <form name="editClientForm" method="POST" (submit)="submitForm()">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title center" id="exampleModalLabel">Modifier un client</h5>
+                        <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
+                        <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-row">
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="lastname" name="nom" type="text" placeholder="Nom"
+                                    required [(ngModel)]="newClient.nomComplet">
+                                <label for="lastname">Nom*</label>
+                                <!-- TODO: custom messages pour la validation -->
+                                <!-- <div class="invalid-feedback">
+                                    Please choose a username.
+                                  </div> -->
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="email" name="email" type="email"
+                                    placeholder="email@company.com" required [(ngModel)]="newClient.email">
+                                <label for="email">Email*</label>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="telephone" name="telephone" type="tel"
+                                    placeholder="0123456789" required [(ngModel)]="newClient.telephone">
+                                <label for="telephone">Téléphone*</label>
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="adresse" name="adresse" type="text"
+                                    placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newClient.adresse">
+                                <label for="telephone">Adresse*</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <!-- TODO: le bouton submit ne ferme pas la modal ? -->
+                        <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
