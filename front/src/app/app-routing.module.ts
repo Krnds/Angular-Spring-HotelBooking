@@ -4,6 +4,7 @@ import { AuthGuard } from './auth.guard';
 import { ClientComponent } from './client/client.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
+import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,11 +14,12 @@ const routes: Routes = [
     path: '', component: MainComponent, canActivate: [AuthGuard], children:
       [
         { path: 'client', component: ClientComponent, canActivate: [AuthGuard] },
+        { path: 'welcome', component: WelcomePageComponent, canActivate: [AuthGuard] },
         // { path: 'ville', component: VilleComponent, canActivate: [AuthGuard] },
         // { path: 'rdv', component: RdvComponent, canActivate: [AuthGuard] }
       ]
   },
-  { path: '**', redirectTo: '' }
+  { path: '**', redirectTo: 'login' } //TODO: à voir
 ];
 
 @NgModule({

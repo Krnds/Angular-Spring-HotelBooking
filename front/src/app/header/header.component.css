@@ -1,11 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap');
 
 * {
     font-family: 'Roboto', sans-serif;
 }
 
 img {
-    width: 10%;
+    width: 4%;
 }
 
 h2 {
@@ -17,17 +18,28 @@ h2 {
 
 }
 
-#hotel-name {
-    position   : absolute;
-    top        : 20px;
-    left       : 90px;
-    font-weight: 600;
+
+.navbar-brand {
+    padding: 0 !important;
 }
 
-.container-fluid > a {
+#hotel-name {
+    position   : absolute;
+    top        : 35%;
+    left       : 90px;
+    font-weight: 600;
+    font-family: 'Quicksand', sans-serif;
+}
+
+.container-fluid>a {
     text-decoration: none;
 }
 
+.bg-light {
+    --bs-bg-opacity : 1;
+    background-color: #f7f7f7 !important;
+}
 
-
-header{ min-height:50px;}
+header {
+    min-height: 50px;
+}

@@ -12,10 +12,11 @@ export class AuthGuard implements CanActivate {
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-console.log("in canactivate method in guard");
-console.log(sessionStorage.getItem("connectedUser")?.toString);
 
-
+      //TODO: get user name to welcome in main page
+      const user = sessionStorage.getItem('connectedUser');
+      console.log(user);
+      
     // sessionStorage stocke les données pour une connexion
     if (sessionStorage.getItem("connectedUser"))
       return true;

@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400&display=swap');
+
+main {
+    height: 75vh;
+    width : 100%;
+}
+
+.welcome-banner {
+    position: relative;
+    height: 75vh;
+    text-align       : center;
+    padding-top      : 100px;
+    color            : white;
+    overflow         : hidden;
+    background       : #C04848;
+    /* fallback for old browsers */
+    background       : linear-gradient(rgba(116, 148, 196, 0.6), rgba(204, 169, 103, 0.6)), url("../../assets/welcome-page_background.jpg");
+    /* Chrome 10-25, Safari 5.1-6 */
+    background       : linear-gradient(rgba(116, 148, 196, 0.6), rgba(204, 169, 103, 0.6)), url("../../assets/welcome-page_background.jpg");
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background-size  : cover;
+    background-repeat: no-repeat;
+    background-position: 0px, 0px, 300px, 0px;
+}
+
+h1 {
+    font-family: 'Quicksand', sans-serif;
+    line-height: 4rem;
+}

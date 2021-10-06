@@ -24,7 +24,10 @@ export class LoginComponent implements OnInit {
     this.adminService.authenticate(this.admin).subscribe(data => {
       if (data.id > 0) {
         sessionStorage.setItem("connectedUser", data);
-        this.router.navigate(['client'])
+        //this.router.navigate(['client'])
+        //TODO: test to redirect to welcome page
+        sessionStorage.setItem('loggedUser', data.username);
+        this.router.navigate(['welcome']);
       } else {
         this.error = true;
       }
