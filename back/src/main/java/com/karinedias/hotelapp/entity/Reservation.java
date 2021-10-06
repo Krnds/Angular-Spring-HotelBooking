@@ -1,7 +1,8 @@
 package com.karinedias.hotelapp.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
+import java.sql.Date;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
@@ -11,8 +12,8 @@ public class Reservation {
     private int id;
     private Client client;
     private Hotel hotel;
-    private Timestamp dateDebut;
-    private Timestamp dateFin;
+    private Date dateDebut;
+    private Date dateFin;
     private int numChambre;
 
     @Id
@@ -48,21 +49,21 @@ public class Reservation {
 
     @Basic
     @Column(name = "date_debut")
-    public Timestamp getDateDebut() {
+    public Date getDateDebut() {
         return dateDebut;
     }
 
-    public void setDateDebut(Timestamp dateDebut) {
+    public void setDateDebut(Date dateDebut) {
         this.dateDebut = dateDebut;
     }
 
     @Basic
     @Column(name = "date_fin")
-    public Timestamp getDateFin() {
+    public Date getDateFin() {
         return dateFin;
     }
 
-    public void setDateFin(Timestamp dateFin) {
+    public void setDateFin(Date dateFin) {
         this.dateFin = dateFin;
     }
 

@@ -1,18 +1,19 @@
-<header th:fragment="header">
+<!-- TODO: mettre un *ngIf="guard.isConnected()" -->
+<header>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="@{/all}">
+            <a class="navbar-brand" href="#">
                 <img src="../../assets/hotel-icon.jpg" alt="hotel-icon" width="50" class="d-inline-block align-text-top">
                 <div id="hotel-name">Gestion hôtelière</div>
             </a>
             <a class="nav justify-content-around">
-                <a class="btn btn-outline-info" aria-current="page" href="/clients">Clients</a>
+                <a class="btn btn-outline-info" aria-current="page" href="/client">Clients</a>
             </a>
             <a class="nav justify-content-around">
-                <a class="btn btn-outline-info" aria-current="page" href="/hotels">Hotels</a>
+                <a class="btn btn-outline-info" aria-current="page" href="/hotel">Hotels</a>
             </a>
             <a class="nav justify-content-around">
-                <a class="btn btn-outline-info" aria-current="page" href="/reservations">Réservations</a>
+                <a class="btn btn-outline-info" aria-current="page" href="/reservation">Réservations</a>
             </a>
             <a class="nav justify-content-around">
                 <button type="button" class="btn btn-outline-warning"><a style="text-decoration: none; color: #505050"

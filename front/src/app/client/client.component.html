@@ -1,8 +1,19 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-<div class="alert alert-sucess" role="alert" *ngIf="success">Opération effectuée avec succès</div>
-<div class="alert alert-error" role="alert" *ngIf="error">L'action n'a pas été réalisée</div>
-<h3 class="text-center my-3 mb-5 text-uppercase">Liste des clients</h3>
+<div class="d-flex justify-content-center m-4">
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show" *ngIf="success">
+        <strong>Succès : </strong>L'opération a bien été prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Error Alert -->
+    <div class="alert alert-danger alert-dismissible fade show" *ngIf="error">
+        <strong>Erreur : </strong>L'opération n'a pu être prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+<h3 class="text-center mb-2 text-uppercase">Liste des clients</h3>
 
 <div class="d-flex justify-content-around">
     <!-- TODO: when implement search bar -->
@@ -26,18 +37,18 @@
     <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
         data-bs-backdrop="static">
         <div class="modal-dialog">
-            <form name="clientForm" method="POST" (submit)="submitForm()" novalidate>
+            <form class="needs-validation" name="clientForm" method="POST" (submit)="submitForm()" novalidate>
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title center" id="exampleModalLabel">Ajouter un client</h5>
-                        <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
-                        <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                                                <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
+                                                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-row">
                             <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="nom" name="nom" type="text" placeholder="Nom"
+                                <input class="form-control has-validation" id="nom" name="nom" type="text" placeholder="Nom"
                                     required [(ngModel)]="newClient.nomComplet">
                                 <label for="lastname">Nom du Client*</label>
                                 <!-- TODO: custom messages pour la validation -->
@@ -50,6 +61,9 @@
                                 <input class="form-control" id="telephone" name="telephone" type="tel"
                                     placeholder="0123456789" required [(ngModel)]="newClient.telephone">
                                 <label for="telephone">Téléphone*</label>
+                                <div class="invalid-feedback">
+                                    Le numéro de téléphone doit faire contenir 10 chiffres.
+                                  </div>
                         </div>
 
                         <div class="form-row">

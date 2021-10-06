@@ -8,7 +8,7 @@ import com.karinedias.hotelapp.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.sql.Timestamp;
+import java.sql.Date;
 
 @Service
 public class ReservationService {
@@ -27,11 +27,11 @@ public class ReservationService {
         return reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID " + id));
     }
 
-    private boolean isReservationCorrect(Client client, Hotel hotel, Timestamp debut, Timestamp fin, int numChambre) {
+    private boolean isReservationCorrect(Client client, Hotel hotel, Date debut, Date fin, int numChambre) {
         return client != null && hotel != null && fin.after(debut) && numChambre >= 0;
     }
 
-    public Reservation add(Client client, Hotel hotel, Timestamp debut, Timestamp fin, int numChambre) throws InvalidEntityException {
+    public Reservation add(Client client, Hotel hotel, Date debut, Date fin, int numChambre) throws InvalidEntityException {
         if (!isReservationCorrect(client, hotel, debut, fin, numChambre)) {
             throw new InvalidEntityException("Invalid Reservation, please check all fields.");
         }
@@ -45,7 +45,7 @@ public class ReservationService {
         return newReservation;
     }
 
-    public Reservation update(int id, Client client, Hotel hotel, Timestamp dateDebut, Timestamp dateFin, int numChambre) {
+    public Reservation update(int id, Client client, Hotel hotel, Date dateDebut, Date dateFin, int numChambre) {
         Reservation modifiedReservation = reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID " + id));
         modifiedReservation.setClient(client);
         modifiedReservation.setHotel(hotel);

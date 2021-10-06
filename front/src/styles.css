@@ -1,2 +1,7 @@
 @import "~bootstrap/dist/css/bootstrap.css";
 @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+router-outlet + * {
+    position:relative;
+  }
