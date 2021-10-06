@@ -5,9 +5,9 @@
     font-family: 'Roboto', sans-serif;
 }
 
-img {
+/* img {
     width: 4%;
-}
+} */
 
 h2 {
     font-size     : 24px;
@@ -18,9 +18,20 @@ h2 {
 
 }
 
+.btn {
+
+    margin-top: 10px !important;
+}
+
+#logout-btn {
+    text-decoration: none;
+    color: #505050;
+}
+
 
 .navbar-brand {
     padding: 0 !important;
+    width: 15vw;
 }
 
 #hotel-name {
