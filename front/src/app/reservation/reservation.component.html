@@ -1,0 +1,134 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<script>
+    let today = new Date().toLocaleDateString();
+    console.log("todays date :");
+    console.log(today);
+    document.getElementById('datedebut').value = today;
+</script>
+
+<div class="d-flex justify-content-center m-4">
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show" *ngIf="success">
+        <strong>Succès : </strong>L'opération a bien été prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Error Alert -->
+    <div class="alert alert-danger alert-dismissible fade show" *ngIf="error">
+        <strong>Erreur : </strong>L'opération n'a pu être prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+<h3 class="text-center mb-2 text-uppercase">Gestion des réservations hôtelières</h3>
+
+<div class="d-flex justify-content-around">
+    <!-- TODO: when implement search bar -->
+<!-- <div class="input-group sm mb-3 clearfix w-25">
+    <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un reservation" aria-describedby="basic-addon1">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadClients()">
+                <span class="material-icons-outlined">search</span></button>
+</div> -->
+<button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
+    Ajouter reservation
+</button>
+</div>
+
+    <div class="container">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Client</th>
+                    <th>Hôtel</th>
+                    <th>Début de la réservation</th>
+                    <th>Fin de la réservation</th>
+                    <th>Numéro de chambre</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let reservation of reservations">
+                    <td>{{reservation.id}}</td>
+                    <td>{{reservation.client?.nomComplet}}</td>
+                    <td>{{reservation.hotel?.nom}}</td>
+                    <td>{{reservation.dateDebut}}</td>
+                    <td>{{reservation.dateFin}}</td>
+                    <td>{{reservation.numChambre}}</td>
+                    <td>
+
+                        <a class="icon" (click)="editReservation(reservation.id)" data-bs-toggle="modal"
+                            data-bs-target="#reservationModal">
+                            <span class="material-icons">edit</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="icon" (click)="deleteReservation(reservation.id)">
+                            <span class="material-icons">delete</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+ <!-- Modal for both adding and updating a reservation -->
+ <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="newReservation.id == undefined">Ajouter une réservation
+                </h5>
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="newReservation.id != undefined">Modifier une réservation
+                </h5>
+                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue</div>
+                <form name="reservationForm" method="POST" (submit)="submitForm()">
+                    <div class="form-row">
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="client" name="client" type="text" placeholder="client"
+                                required [(ngModel)]="newReservation.client">
+                            <label for="client">Nom du client*</label>
+                            <!-- TODO: custom messages pour la validation -->
+                            <!-- <div class="invalid-feedback">
+                                Please choose a username.
+                              </div> -->
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="hotel" name="hotel" type="text"
+                                placeholder="hotel" required [(ngModel)]="newReservation.hotel">
+                            <label for="hotel">Hôtel*</label>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="datedebut" name="datedebut" type="date" value=""
+                                placeholder="DD/MM/YYYY" required [(ngModel)]="newReservation.dateDebut">
+                            <label for="datedebut">Début de la réservation*</label>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="datefin" name="datefin" type="date" value=""
+                                placeholder="DD/MM/YYYY" required [(ngModel)]="newReservation.dateFin">
+                            <label for="datefin">Fin de la réservation*</label>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="numchambre" name="numchambre" type="number" min="1" max="500"
+                                placeholder="404" required [(ngModel)]="newReservation.numChambre">
+                            <label for="numchambre">Numéro de la chambre réservée*</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

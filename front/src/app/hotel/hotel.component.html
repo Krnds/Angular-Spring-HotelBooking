@@ -1,0 +1,152 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<div class="d-flex justify-content-center m-4">
+    <!-- Success Alert -->
+    <div class="alert alert-success alert-dismissible fade show" *ngIf="success">
+        <strong>Succès : </strong>L'opération a bien été prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+
+    <!-- Error Alert -->
+    <div class="alert alert-danger alert-dismissible fade show" *ngIf="error">
+        <strong>Erreur : </strong>L'opération n'a pu être prise en compte
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+</div>
+<h3 class="text-center mb-2 text-uppercase">Gestion des hôtels</h3>
+
+<div class="d-flex justify-content-around">
+    <!-- TODO: when implement search bar -->
+    <!-- <div class="input-group sm mb-3 clearfix w-25">
+    <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un hotel" aria-describedby="basic-addon1">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadHotels()">
+                <span class="material-icons-outlined">search</span></button>
+</div> -->
+    <button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#hotelModal">
+        Ajouter hôtel
+    </button>
+</div>
+
+<body>
+
+
+
+    <div class="container">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Etoiles</th>
+                    <th>Adresse</th>
+                    <th>Téléphone</th>
+                    <th>E-mail</th>
+                    <th>Ville</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let hotel of hotels">
+                    <td>{{hotel.id}}</td>
+                    <td>{{hotel.nom}}</td>
+                    <td>{{hotel.etoiles}}</td>
+                    <td>{{hotel.adresse}}</td>
+                    <td>{{hotel.telephone}}</td>
+                    <td>{{hotel.email}}</td>
+                    <td>{{hotel.ville}}</td>
+                    <td>                    <!-- TODO: test submitform instead of editHotel(hotel.id) -->
+
+                        <a class="icon" (click)="editHotel(hotel.id)" data-bs-toggle="modal"
+                            data-bs-target="#hotelModal">
+                            <span class="material-icons">edit</span>
+                        </a>
+                    </td>
+                    <td>
+                        <a class="icon" (click)="deleteHotel(hotel.id)">
+                            <span class="material-icons">delete</span>
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+    <!-- Modal for both adding and updating an hotel -->
+    <div class="modal fade" id="hotelModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel" *ngIf="newHotel.id == undefined">Ajouter un hôtel
+                    </h5>
+                    <h5 class="modal-title" id="exampleModalLabel" *ngIf="newHotel.id != undefined">Modifier un hôtel
+                    </h5>
+                    <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue</div>
+                    <form name="hotelForm" method="POST" (submit)="submitForm()">
+                        <div class="form-row">
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control has-validation" id="nom" name="nom" type="text"
+                                    placeholder="Nom" required [(ngModel)]="newHotel.nom">
+                                <label for="nom">Nom de l'hôtel*</label>
+                                <!-- TODO: custom messages pour la validation -->
+                                <div class="invalid-feedback">
+                                    Veuillez choisir un nom.
+                                </div>
+
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control has-validation" id="etoiles" name="etoiles" type="number"
+                                    placeholder="5" required [(ngModel)]="newHotel.etoiles">
+                                <label for="etoiles">Nombre d'étoiles*</label>
+                                <span class="material-icons">star_purple500</span>
+                                <!-- TODO: custom messages pour la validation -->
+                                <div class="invalid-feedback">
+                                    Veuillez choisir un nb d'étoiles
+                                </div>
+
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="adresse" name="adresse" type="text"
+                                    placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newHotel.adresse">
+                                <label for="adresse">Adresse*</label>
+                            </div>
+                            <div class="form-group form-floating mb-3">
+                                <input class="form-control" id="telephone" name="telephone" type="tel"
+                                    placeholder="0123456789" required [(ngModel)]="newHotel.telephone">
+                                <label for="telephone">Téléphone*</label>
+                                <div class="invalid-feedback">
+                                    Le numéro de téléphone doit faire contenir 10 chiffres.
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control" id="email" name="email" type="email"
+                                        placeholder="email@company.com" required [(ngModel)]="newHotel.email">
+                                    <label for="email">Email*</label>
+                                </div>
+                                <div class="form-group form-floating mb-3">
+                                    <input class="form-control" id="ville" name="ville" type="ville" placeholder="Ville"
+                                        required [(ngModel)]="newHotel.ville">
+                                    <label for="email">Ville*</label>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

@@ -11,6 +11,8 @@ import { FooterComponent } from './footer/footer.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
+import { HotelComponent } from './hotel/hotel.component';
+import { ReservationComponent } from './reservation/reservation.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
     MainComponent,
     HeaderComponent,
     FooterComponent,
-    WelcomePageComponent
+    WelcomePageComponent,
+    HotelComponent,
+    ReservationComponent
   ],
   imports: [
     BrowserModule,

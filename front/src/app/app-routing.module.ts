@@ -2,8 +2,10 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { ClientComponent } from './client/client.component';
+import { HotelComponent } from './hotel/hotel.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
+import { ReservationComponent } from './reservation/reservation.component';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 const routes: Routes = [
@@ -15,8 +17,8 @@ const routes: Routes = [
       [
         { path: 'client', component: ClientComponent, canActivate: [AuthGuard] },
         { path: 'welcome', component: WelcomePageComponent, canActivate: [AuthGuard] },
-        // { path: 'ville', component: VilleComponent, canActivate: [AuthGuard] },
-        // { path: 'rdv', component: RdvComponent, canActivate: [AuthGuard] }
+        { path: 'hotel', component: HotelComponent, canActivate: [AuthGuard] },
+        { path: 'reservation', component: ReservationComponent, canActivate: [AuthGuard] }
       ]
   },
   { path: '**', redirectTo: 'login' } //TODO: à voir

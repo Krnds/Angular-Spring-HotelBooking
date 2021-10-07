@@ -31,6 +31,11 @@ public class ReservationService {
         return client != null && hotel != null && fin.after(debut) && numChambre >= 0;
     }
 
+    //TODO: faire une méthode qui check qu'il n'y a pas une autre réservation de la même chambre en cours avec la date souhaitée
+    private boolean isRoomNumberFree(int roomNumber, Client client) {
+        return true;
+    }
+
     public Reservation add(Client client, Hotel hotel, Date debut, Date fin, int numChambre) throws InvalidEntityException {
         if (!isReservationCorrect(client, hotel, debut, fin, numChambre)) {
             throw new InvalidEntityException("Invalid Reservation, please check all fields.");

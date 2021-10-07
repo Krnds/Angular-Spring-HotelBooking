@@ -13,7 +13,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 </div>
-<h3 class="text-center mb-2 text-uppercase">Liste des clients</h3>
+<h3 class="text-center mb-2 text-uppercase">Gestion des clients</h3>
 
 <div class="d-flex justify-content-around">
     <!-- TODO: when implement search bar -->
@@ -26,70 +26,6 @@
     Ajouter client
 </button>
 </div>
-
-<body>
-
-    <!-- Button trigger modal -->
-    <div class="d-flex justify-content-center">
-
-    </div>
-    <!-- Modal for adding a new client -->
-    <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        data-bs-backdrop="static">
-        <div class="modal-dialog">
-            <form class="needs-validation" name="clientForm" method="POST" (submit)="submitForm()" novalidate>
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title center" id="exampleModalLabel">Ajouter un client</h5>
-                                                <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
-                                                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control has-validation" id="nom" name="nom" type="text" placeholder="Nom"
-                                    required [(ngModel)]="newClient.nomComplet">
-                                <label for="lastname">Nom du Client*</label>
-                                <!-- TODO: custom messages pour la validation -->
-                                <div class="invalid-feedback">
-                                    Veuillez choisir un nom.
-                                </div>
-
-                            </div>
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="telephone" name="telephone" type="tel"
-                                    placeholder="0123456789" required [(ngModel)]="newClient.telephone">
-                                <label for="telephone">Téléphone*</label>
-                                <div class="invalid-feedback">
-                                    Le numéro de téléphone doit faire contenir 10 chiffres.
-                                  </div>
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="email" name="email" type="email"
-                                    placeholder="email@company.com" required [(ngModel)]="newClient.email">
-                                <label for="email">Email*</label>
-                            </div>
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="adresse" name="adresse" type="text"
-                                    placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newClient.adresse">
-                                <label for="telephone">Adresse*</label>
-                            </div>
-                        </div>
-                        </div>
-
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
 
     <div class="container">
 
@@ -115,7 +51,7 @@
                     <td>
 
                         <a class="icon" (click)="editClient(client.id)" data-bs-toggle="modal"
-                            data-bs-target="#editClientModal">
+                            data-bs-target="#clientModal">
                             <span class="material-icons">edit</span>
                         </a>
                     </td>
@@ -129,55 +65,56 @@
         </table>
     </div>
 
-    <!-- Modal for updating a client -->
-    <div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
-        data-bs-backdrop="static">
-        <div class="modal-dialog">
-            <form name="editClientForm" method="POST" (submit)="submitForm()">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title center" id="exampleModalLabel">Modifier un client</h5>
-                        <!-- Le #closebutton sert à la requête viewChild de cet élément : -->
-                        <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-row">
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="lastname" name="nom" type="text" placeholder="Nom"
-                                    required [(ngModel)]="newClient.nomComplet">
-                                <label for="lastname">Nom*</label>
-                                <!-- TODO: custom messages pour la validation -->
-                                <!-- <div class="invalid-feedback">
-                                    Please choose a username.
-                                  </div> -->
-                            </div>
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="email" name="email" type="email"
-                                    placeholder="email@company.com" required [(ngModel)]="newClient.email">
-                                <label for="email">Email*</label>
-                            </div>
+ <!-- Modal for both adding and updating a client -->
+ <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="newClient.id == undefined">Ajouter un client
+                </h5>
+                <h5 class="modal-title" id="exampleModalLabel" *ngIf="newClient.id != undefined">Modifier un client
+                </h5>
+                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue</div>
+                <form name="clientForm" method="POST" (submit)="submitForm()">
+                    <div class="form-row">
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="lastname" name="nom" type="text" placeholder="Nom"
+                                required [(ngModel)]="newClient.nomComplet">
+                            <label for="lastname">Nom*</label>
+                            <!-- TODO: custom messages pour la validation -->
+                            <!-- <div class="invalid-feedback">
+                                Please choose a username.
+                              </div> -->
                         </div>
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="telephone" name="telephone" type="tel"
+                                placeholder="0123456789" required [(ngModel)]="newClient.telephone">
+                            <label for="telephone">Téléphone*</label>
+                        </div>
+                    </div>
 
-                        <div class="form-row">
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="telephone" name="telephone" type="tel"
-                                    placeholder="0123456789" required [(ngModel)]="newClient.telephone">
-                                <label for="telephone">Téléphone*</label>
-                            </div>
-                            <div class="form-group form-floating mb-3">
-                                <input class="form-control" id="adresse" name="adresse" type="text"
-                                    placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newClient.adresse">
-                                <label for="telephone">Adresse*</label>
-                            </div>
+                    <div class="form-row">
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="email" name="email" type="email"
+                                placeholder="email@company.com" required [(ngModel)]="newClient.email">
+                            <label for="email">Email*</label>
+                        </div>
+                        <div class="form-group form-floating mb-3">
+                            <input class="form-control" id="adresse" name="adresse" type="text"
+                                placeholder="1 rue de Paris, 75000 Paris" required [(ngModel)]="newClient.adresse">
+                            <label for="telephone">Adresse*</label>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <!-- TODO: le bouton submit ne ferme pas la modal ? -->
                         <button class="btn btn-primary" type="submit" id="submitForm">Enregistrer</button>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
+</div>

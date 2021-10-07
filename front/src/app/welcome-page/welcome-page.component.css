@@ -7,9 +7,9 @@ main {
 
 .welcome-banner {
     position: relative;
-    height: 75vh;
+    height: 85vh;
     text-align       : center;
-    padding-top      : 100px;
+    padding-top: 160px;
     color            : white;
     overflow         : hidden;
     background       : #C04848;
@@ -21,9 +21,15 @@ main {
     background-size  : cover;
     background-repeat: no-repeat;
     background-position: 0px, 0px, 300px, 0px;
+    top: 15px;
 }
 
 h1 {
     font-family: 'Quicksand', sans-serif;
     line-height: 4rem;
+}
+
+span {
+    font-weight: 900;
+    text-transform: capitalize;
 }
