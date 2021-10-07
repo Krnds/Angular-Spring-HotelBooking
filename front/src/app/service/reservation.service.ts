@@ -16,6 +16,21 @@ export class ReservationService {
     return this.http.get<Reservation[]>(environment.apiEndpoint + "resa", HttpOptions);
   }
 
+  //TODO: loadReservationsByClient
+  loadReservationsByClient(idClient ?: number) : Observable<Reservation[]> {
+
+    let query = "";
+    if (idClient != undefined && idClient > 0) {
+      query = "?client=" + idClient;
+    }
+    console.log("In load reservations by client (reservation service), query =");
+    console.log(query);
+    return this.http.get<Reservation[]>(environment.apiEndpoint + "resa/search" + query, HttpOptions);
+  }
+
+
+  //TODO: loadReservationsByHotel
+
   addReservation(reservation: Reservation): Observable<Reservation> {
     return this.http.post<Reservation>(environment.apiEndpoint + "resa", reservation, HttpOptions);
   }

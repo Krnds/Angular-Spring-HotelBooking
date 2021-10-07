@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.util.List;
 
 @Service
 public class ReservationService {
@@ -25,6 +26,20 @@ public class ReservationService {
 
     public Reservation findById(int id) {
         return reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID " + id));
+    }
+
+    //TODO: essayer de chercher une réservation selon le client
+    public Iterable<Reservation> findByClientId(int id) {
+        if (id == 0) {
+            return reservationRepo.findAll();
+        } else {
+            System.out.println("Id du client à rechercher = " + id);
+            List<Reservation> resaTrouvees = reservationRepo.findById(id).stream().toList();
+            for (Reservation r : resaTrouvees) {
+                System.out.println(r.toString());
+            }
+            return reservationRepo.findByClientId(id);
+        }
     }
 
     private boolean isReservationCorrect(Client client, Hotel hotel, Date debut, Date fin, int numChambre) {

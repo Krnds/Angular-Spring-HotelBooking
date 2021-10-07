@@ -2,3 +2,14 @@
     cursor: pointer;
     color: #39C0ED;
 }
+
+#search-container {
+    position: relative;
+    margin-top: 50px;
+    max-width: 1320px;
+    margin-bottom: 50px;
+}
+
+.form-select {
+    width: 150% !important;
+}

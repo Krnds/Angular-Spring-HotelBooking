@@ -27,8 +27,8 @@ public class Reservation {
         this.id = id;
     }
 
-    @OneToOne
-    @JoinColumn(name = "client", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "client", referencedColumnName = "id", nullable = false)
     public Client getClient() {
         return client;
     }
@@ -37,8 +37,8 @@ public class Reservation {
         this.client = client;
     }
 
-    @OneToOne
-    @JoinColumn(name = "hotel", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "hotel", referencedColumnName = "id", nullable = false)
     public Hotel getHotel() {
         return hotel;
     }

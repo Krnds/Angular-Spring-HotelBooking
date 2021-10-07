@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Client } from '../classes/client';
 import { Reservation } from '../classes/reservation';
+import { ClientService } from '../service/client.service';
 import { ReservationService } from '../service/reservation.service';
+import {MatIconModule} from '@angular/material/icon';
 
 @Component({
   selector: 'app-reservation',
@@ -10,15 +13,17 @@ import { ReservationService } from '../service/reservation.service';
 export class ReservationComponent implements OnInit {
 
   newReservation: Reservation = new Reservation();
+  clients: Array<Client> = [];
 
   reservations: Array<Reservation> = [];
   @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
   error: boolean = false;
 
-  constructor(private reservationService : ReservationService) { }
+  constructor(private reservationService : ReservationService, private clientService : ClientService) { }
 
   ngOnInit(): void {
+    this.loadClients();
     this.loadReservations();
   }
 
@@ -29,6 +34,21 @@ export class ReservationComponent implements OnInit {
         console.log(data);
       }
     );
+  }
+
+  loadClients(): void {
+    console.log("in load clients");
+    this.clientService.loadClients().subscribe(data => {
+      this.clients = data;
+      console.log(data);
+    })
+  }
+
+  loadReservationsByClient(id?: number) : void {
+    this.reservationService.loadReservationsByClient(id).subscribe(data => {
+      this.reservations = data;
+      console.log(data);
+    })
   }
 
   editReservation(id?: number): void {

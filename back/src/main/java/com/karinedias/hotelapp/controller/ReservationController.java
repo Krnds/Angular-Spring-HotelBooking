@@ -13,6 +13,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
+import java.util.Iterator;
 
 @RestController
 @RequestMapping("/api/resa")
@@ -29,9 +30,25 @@ public class ReservationController {
 //    }
 
     @GetMapping(path = "", produces = "application/json")
-    public Iterable<Reservation> getAll(HttpServletRequest request) {
+    public Iterable<Reservation> getAll() {
         return reservationService.findAll();
     }
+
+
+    @GetMapping(path = "/search", produces = "application/json")
+    public Iterable<Reservation> getAll(HttpServletRequest request) {
+            System.out.println("Valeur de l'ID client recherché = " + request.getParameter("client"));
+            return reservationService.findByClientId(Integer.parseInt(request.getParameter("client")));
+    }
+
+//    @GetMapping(path = "/client/{id}", produces = "application/json")
+//    public Iterable<Reservation> getAll(@PathVariable("id") int idClient) {
+//        try {
+//           Iterable<Reservation> res = reservationService.findByClientId(idClient);
+//           return Respon
+//        }
+//        return reservationService.findAll();
+//    }
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Reservation> get(@PathVariable(value = "id") int id) {
