@@ -4,14 +4,13 @@ import com.karinedias.hotelapp.entity.Client;
 import com.karinedias.hotelapp.entity.Hotel;
 import com.karinedias.hotelapp.entity.Reservation;
 import com.karinedias.hotelapp.exceptions.InvalidEntityException;
-import com.karinedias.hotelapp.repository.DateFinReservation;
 import com.karinedias.hotelapp.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ReservationService {
@@ -56,56 +55,33 @@ public class ReservationService {
         }
     }
 
-    private boolean isReservationCorrect(Client client, Hotel hotel, Date debut, Date fin, int numChambre) {
-        return client != null && hotel != null && fin.after(debut) && numChambre >= 0;
+    private boolean isReservationCorrect(Reservation reservation) {
+        return reservation.getClient() != null && reservation.getHotel() != null &&
+                reservation.getDateFin().after(reservation.getDateDebut()) && reservation.getNumChambre() >= 0;
     }
 
-    //TODO: faire une méthode qui check qu'il n'y a pas une autre réservation de la même chambre en cours avec la date souhaitée
-    private boolean isRoomNumberFree(int idHotel, int roomNumber, Date dateFin) {
-
-        List<Reservation> reservationTrouvees = new ArrayList<>();
-        reservationRepo.findByHotelIdAndNumChambreAndDateFinBefore(idHotel, roomNumber, dateFin).forEach(reservationTrouvees::add);
-
-        //TODO: utiliser méthode qui renvoie DateFinReservation
-//        List<DateFinReservation> datesFinChambre = reservationRepo.findByHotelIdAndNumChambre(idHotel, roomNumber);
-//        for (DateFinReservation d: datesFinChambre) {
-//            Date a = d.getDateFin();
-//            datesFinReservationsChambre.add(a);
-//        }
-//        datesFinReservationsChambre = reservationRepo.findByHotelIdAndNumChambre(idHotel, roomNumber).forEach().map(dates -> dates.getDateFin()).collect(Collectors.toList());
-//    stream().map(dates -> dates.getDateFin()).collect(Collectors.toList());
-//                forEach(datesFinReservationsChambre::add);
-
-//        for (Date finResa : datesFinReservationsChambre) {
-//            if (finResa.compareTo(dateFin) > 0) {
-//                System.out.println(finResa.toDate() + " est après la date de fin de résa voulue...");
-//                return false;
-//            }
-//        }
-
-
-        if (reservationTrouvees.size() != 0) {
-            return false;
-        } else {
-            return true;
-        }
+    private boolean isReservationUnavailable(Reservation wantedReservation) {
+        return StreamSupport.stream(reservationRepo.findByHotelIdAndNumChambre(
+                                wantedReservation.getHotel().getId(),
+                                wantedReservation.getNumChambre())
+                        .spliterator(), false)
+                .anyMatch(reservation -> isOverlap(wantedReservation, reservation));
     }
 
-    public Reservation add(Client client, Hotel hotel, Date debut, Date fin, int numChambre) throws InvalidEntityException {
-        if (!isReservationCorrect(client, hotel, debut, fin, numChambre)) {
-            throw new InvalidEntityException("Invalid Reservation, please check all fields.");
+    private boolean isOverlap(Reservation wantedReservation, Reservation otherReservation) {
+        return wantedReservation.getDateDebut().before(otherReservation.getDateFin()) &&
+                wantedReservation.getDateFin().after(otherReservation.getDateDebut());
+    }
+
+    public Reservation add(Reservation reservation) throws InvalidEntityException {
+        if (!isReservationCorrect(reservation)) {
+            throw new InvalidEntityException("Réservation invalide, veuillez vérifiez tous les champs.");
         }
-        Reservation newReservation = new Reservation();
-        newReservation.setClient(client);
-        newReservation.setHotel(hotel);
-        newReservation.setDateDebut(debut);
-        newReservation.setDateFin(fin);
-        newReservation.setNumChambre(numChambre);
-        if (isRoomNumberFree(hotel.getId(), numChambre, fin)) {
+        if (isReservationUnavailable(reservation)) {
             throw new InvalidEntityException("Réservation invalide : une autre réservation pour cette chambre existe dejà pour ces dates.");
         }
-        reservationRepo.save(newReservation);
-        return newReservation;
+        reservationRepo.save(reservation);
+        return reservation;
     }
 
     public Reservation update(int id, Client client, Hotel hotel, Date dateDebut, Date dateFin, int numChambre) {

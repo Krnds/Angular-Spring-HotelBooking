@@ -9,8 +9,6 @@ public interface ReservationRepository extends CrudRepository<Reservation, Integ
 
     Iterable<Reservation> findByClientId(int idClient);
     Iterable<Reservation> findByHotelId(int idHotel);
-
-    // TODO: pour récupérer toutes les dates de fin de réservation associées à cette chambre d'hôtel
-    Iterable<DateFinReservation> findByHotelIdAndNumChambre(int idHotel, int roomNumber);
-    Iterable<Reservation> findByHotelIdAndNumChambreAndDateFinBefore(int idHotel, int roomNumber, Date dateFin);
+    Iterable<Reservation> findByHotelIdAndNumChambre(int idHotel, int roomNumber);
+//    Iterable<Reservation> findByHotelIdAndNumChambreAndDateFinBefore(int idHotel, int roomNumber, Date dateFin);
 }
