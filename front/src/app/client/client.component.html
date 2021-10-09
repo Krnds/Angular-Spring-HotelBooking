@@ -3,13 +3,13 @@
 <div class="d-flex justify-content-center m-4">
     <!-- Success Alert -->
     <div class="alert alert-success alert-dismissible fade show" *ngIf="success">
-        <strong>Succès : </strong>L'opération a bien été prise en compte
+        <span id="err-message">Succès</span> : L'opération a bien été prise en compte
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
     <!-- Error Alert -->
     <div class="alert alert-danger alert-dismissible fade show" *ngIf="error">
-        <strong>Erreur : </strong>L'opération n'a pu être prise en compte
+        <span id="err-message">Erreur</span> : L'opération n'a pu être prise en compte
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 </div>
@@ -17,56 +17,56 @@
 
 <div class="d-flex justify-content-around">
     <!-- TODO: when implement search bar -->
-<!-- <div class="input-group sm mb-3 clearfix w-25">
+    <!-- <div class="input-group sm mb-3 clearfix w-25">
     <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un client" aria-describedby="basic-addon1">
     <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadClients()">
                 <span class="material-icons-outlined">search</span></button>
 </div> -->
-<button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#clientModal">
-    Ajouter client
-</button>
+    <button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#clientModal">
+        Ajouter client
+    </button>
 </div>
 
-    <div class="container">
+<div class="container">
 
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Téléphone</th>
-                    <th>Email</th>
-                    <th>Adresse</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let client of clients">
-                    <td>{{client.id}}</td>
-                    <td>{{client.nomComplet}}</td>
-                    <td>{{client.telephone}}</td>
-                    <td>{{client.email}}</td>
-                    <td>{{client.adresse}}</td>
-                    <td>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nom</th>
+                <th>Téléphone</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let client of clients">
+                <td>{{client.id}}</td>
+                <td>{{client.nomComplet}}</td>
+                <td>{{client.telephone}}</td>
+                <td>{{client.email}}</td>
+                <td>{{client.adresse}}</td>
+                <td>
 
-                        <a class="icon" (click)="editClient(client.id)" data-bs-toggle="modal"
-                            data-bs-target="#clientModal">
-                            <span class="material-icons">edit</span>
-                        </a>
-                    </td>
-                    <td>
-                        <a class="icon" (click)="deleteClient(client.id)">
-                            <span class="material-icons">delete</span>
-                        </a>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+                    <a class="icon" (click)="editClient(client.id)" data-bs-toggle="modal"
+                        data-bs-target="#clientModal">
+                        <span class="material-icons">edit</span>
+                    </a>
+                </td>
+                <td>
+                    <a class="icon" (click)="deleteClient(client.id)">
+                        <span class="material-icons">delete</span>
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
- <!-- Modal for both adding and updating a client -->
- <div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal for both adding and updating a client -->
+<div class="modal fade" id="clientModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -78,12 +78,13 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue</div>
+                <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue : <span
+                    id="err-message">{{errMessage}}</span></div>
                 <form name="clientForm" method="POST" (submit)="submitForm()">
                     <div class="form-row">
                         <div class="form-group form-floating mb-3">
-                            <input class="form-control" id="lastname" name="nom" type="text" placeholder="Nom"
-                                required [(ngModel)]="newClient.nomComplet">
+                            <input class="form-control" id="lastname" name="nom" type="text" placeholder="Nom" required
+                                [(ngModel)]="newClient.nomComplet">
                             <label for="lastname">Nom*</label>
                             <!-- TODO: custom messages pour la validation -->
                             <!-- <div class="invalid-feedback">

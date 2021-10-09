@@ -2,7 +2,6 @@ package com.karinedias.hotelapp.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.sql.Date;
 import java.util.Objects;
 
 @Entity

@@ -31,7 +31,7 @@ public class HotelService {
 
     public Hotel add(String nom, int etoiles, String adresse, String telephone, String email, String ville) throws InvalidEntityException {
         if (!isHotelCorrect(nom, etoiles, adresse, telephone, email, ville)) {
-            throw new InvalidEntityException("Invalid hotel, please check all fields.");
+            throw new InvalidEntityException("Hôtel invalide, vérifiez les champs de la saisie.");
         }
         Hotel newHotel = new Hotel();
         newHotel.setNom(nom);

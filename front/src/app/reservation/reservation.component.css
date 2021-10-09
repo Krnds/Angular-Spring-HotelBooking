@@ -1,15 +1,50 @@
 .icon {
     cursor: pointer;
-    color: #39C0ED;
+    color : #39C0ED;
 }
 
 #search-container {
-    position: relative;
-    margin-top: 50px;
-    max-width: 1320px;
-    margin-bottom: 50px;
+    position     : relative;
+    left         : 50%;
+    transform    : translateX(-50%);
+    margin-top   : 70px;
+    max-width    : 1320px;
+    margin-bottom: 40px;
 }
 
-.form-select {
-    width: 150% !important;
+.search-label {
+    display: contents;
+}
+
+.form-inline {
+    justify-content: center;
+}
+
+
+form #search-container #input {
+    float: left;
+}
+
+form #search-container #input.full {
+    clear: both;
+}
+
+form #search-container #input label {
+    display: block;
+}
+
+
+#err-message {
+    font-weight: bold;
+}
+
+.input-group {
+    justify-content: center;
+margin: 5px 10px 5px 10px;
+}
+
+
+.search-label label {
+    position: absolute;
+    bottom: 50px;
 }

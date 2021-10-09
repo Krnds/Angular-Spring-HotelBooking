@@ -4,5 +4,9 @@
 
 .icon {
     cursor: pointer;
-    color: #39C0ED;
+    color : #39C0ED;
+}
+
+#err-message {
+    font-weight: bold;
 }

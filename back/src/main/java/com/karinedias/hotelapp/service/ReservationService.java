@@ -4,11 +4,13 @@ import com.karinedias.hotelapp.entity.Client;
 import com.karinedias.hotelapp.entity.Hotel;
 import com.karinedias.hotelapp.entity.Reservation;
 import com.karinedias.hotelapp.exceptions.InvalidEntityException;
+import com.karinedias.hotelapp.repository.DateFinReservation;
 import com.karinedias.hotelapp.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,7 +30,6 @@ public class ReservationService {
         return reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID " + id));
     }
 
-    //TODO: essayer de chercher une réservation selon le client
     public Iterable<Reservation> findByClientId(int id) {
         if (id == 0) {
             return reservationRepo.findAll();
@@ -42,13 +43,52 @@ public class ReservationService {
         }
     }
 
+    public Iterable<Reservation> findByHotelId(int id) {
+        if (id == 0) {
+            return reservationRepo.findAll();
+        } else {
+            System.out.println("Id de l'hôtel à rechercher = " + id);
+            List<Reservation> resaTrouvees = reservationRepo.findById(id).stream().toList();
+            for (Reservation r : resaTrouvees) {
+                System.out.println(r.toString());
+            }
+            return reservationRepo.findByHotelId(id);
+        }
+    }
+
     private boolean isReservationCorrect(Client client, Hotel hotel, Date debut, Date fin, int numChambre) {
         return client != null && hotel != null && fin.after(debut) && numChambre >= 0;
     }
 
     //TODO: faire une méthode qui check qu'il n'y a pas une autre réservation de la même chambre en cours avec la date souhaitée
-    private boolean isRoomNumberFree(int roomNumber, Client client) {
-        return true;
+    private boolean isRoomNumberFree(int idHotel, int roomNumber, Date dateFin) {
+
+        List<Reservation> reservationTrouvees = new ArrayList<>();
+        reservationRepo.findByHotelIdAndNumChambreAndDateFinBefore(idHotel, roomNumber, dateFin).forEach(reservationTrouvees::add);
+
+        //TODO: utiliser méthode qui renvoie DateFinReservation
+//        List<DateFinReservation> datesFinChambre = reservationRepo.findByHotelIdAndNumChambre(idHotel, roomNumber);
+//        for (DateFinReservation d: datesFinChambre) {
+//            Date a = d.getDateFin();
+//            datesFinReservationsChambre.add(a);
+//        }
+//        datesFinReservationsChambre = reservationRepo.findByHotelIdAndNumChambre(idHotel, roomNumber).forEach().map(dates -> dates.getDateFin()).collect(Collectors.toList());
+//    stream().map(dates -> dates.getDateFin()).collect(Collectors.toList());
+//                forEach(datesFinReservationsChambre::add);
+
+//        for (Date finResa : datesFinReservationsChambre) {
+//            if (finResa.compareTo(dateFin) > 0) {
+//                System.out.println(finResa.toDate() + " est après la date de fin de résa voulue...");
+//                return false;
+//            }
+//        }
+
+
+        if (reservationTrouvees.size() != 0) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public Reservation add(Client client, Hotel hotel, Date debut, Date fin, int numChambre) throws InvalidEntityException {
@@ -61,6 +101,9 @@ public class ReservationService {
         newReservation.setDateDebut(debut);
         newReservation.setDateFin(fin);
         newReservation.setNumChambre(numChambre);
+        if (isRoomNumberFree(hotel.getId(), numChambre, fin)) {
+            throw new InvalidEntityException("Réservation invalide : une autre réservation pour cette chambre existe dejà pour ces dates.");
+        }
         reservationRepo.save(newReservation);
         return newReservation;
     }

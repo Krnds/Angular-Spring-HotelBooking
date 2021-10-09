@@ -30,7 +30,7 @@ public class ClientService {
 
     public Client add(String nomComplet, String telephone, String email, String adresse) throws InvalidEntityException {
         if (!isClientCorrect(nomComplet, telephone, email, adresse)) {
-            throw new InvalidEntityException("Invalid client, please check all fields.");
+            throw new InvalidEntityException("Client invalide, vérifiez les champs de la saisie.");
         }
         Client newClient = new Client();
         newClient.setNomComplet(nomComplet);

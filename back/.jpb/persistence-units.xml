@@ -4,7 +4,7 @@
     <persistence-units>
       <persistence-unit name="Default">
         <packages>
-          <package value="com.karinedias.medicalapp" />
+          <package value="com.karinedias.hotelapp" />
         </packages>
       </persistence-unit>
     </persistence-units>
