@@ -24,24 +24,17 @@ public class HotelService {
         return hotelRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Hotel not found with ID " + id));
     }
 
-    private boolean isHotelCorrect(String nom, int etoiles, String adresse, String telephone, String email, String ville) {
-        return nom.length() >= 2 && etoiles >= 1 && adresse.length() >= 5 && telephone.length() == 10 &&
-                email.length() >= 5 && ville.length() >= 2;
+    private boolean isHotelCorrect(Hotel hotel) {
+        return hotel.getNom().length() >= 2 && hotel.getEtoiles() >= 1 && hotel.getAdresse().length() >= 5 &&
+                hotel.getTelephone().length() == 10 && hotel.getEmail().length() >= 5 && hotel.getVille().length() >= 2;
     }
 
-    public Hotel add(String nom, int etoiles, String adresse, String telephone, String email, String ville) throws InvalidEntityException {
-        if (!isHotelCorrect(nom, etoiles, adresse, telephone, email, ville)) {
+    public Hotel add(Hotel hotel) throws InvalidEntityException {
+        if (!isHotelCorrect(hotel)) {
             throw new InvalidEntityException("Hôtel invalide, vérifiez les champs de la saisie.");
         }
-        Hotel newHotel = new Hotel();
-        newHotel.setNom(nom);
-        newHotel.setEtoiles(etoiles);
-        newHotel.setAdresse(adresse);
-        newHotel.setTelephone(telephone);
-        newHotel.setEmail(email);
-        newHotel.setVille(ville);
-        hotelRepo.save(newHotel);
-        return newHotel;
+        hotelRepo.save(hotel);
+        return hotel;
     }
 
     public Hotel update(int id, String nom, int etoiles, String adresse, String telephone, String email, String ville) {

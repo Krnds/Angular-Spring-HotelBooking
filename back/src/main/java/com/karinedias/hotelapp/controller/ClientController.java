@@ -48,8 +48,7 @@ public class ClientController {
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Client> add(@RequestBody Client client) {
         try {
-            Client newClient = clientService.add(client.getNomComplet(), client.getTelephone()
-                    , client.getEmail(), client.getAdresse());
+            Client newClient = clientService.add(client);
 
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")

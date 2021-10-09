@@ -48,8 +48,7 @@ public class HotelController {
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Hotel> add(@RequestBody Hotel hotel) {
         try {
-            Hotel newClient = hotelService.add(hotel.getNom(), hotel.getEtoiles(), hotel.getAdresse(),
-                    hotel.getTelephone(), hotel.getEmail(), hotel.getVille());
+            Hotel newClient = hotelService.add(hotel);
 
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")

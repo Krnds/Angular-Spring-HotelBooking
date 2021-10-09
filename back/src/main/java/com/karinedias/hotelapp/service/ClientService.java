@@ -21,28 +21,24 @@ public class ClientService {
     }
 
     public Client findById(int id) {
-        return clientRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with ID " + id));
+        return clientRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Le client n'a pas été trouvé avec l'ID " + id));
     }
 
-    private boolean isClientCorrect(String nomComplet, String telephone, String email, String adresse) {
-        return nomComplet.length() >= 2 && telephone.length() >= 10 && email.length() >= 2 && adresse.length() >= 5;
+    private boolean isClientCorrect(Client client) {
+        return client.getNomComplet().length() >= 2 && client.getTelephone().length() >= 10 &&
+                client.getEmail().length() >= 2 && client.getAdresse().length() >= 5;
     }
 
-    public Client add(String nomComplet, String telephone, String email, String adresse) throws InvalidEntityException {
-        if (!isClientCorrect(nomComplet, telephone, email, adresse)) {
+    public Client add(Client client) throws InvalidEntityException {
+        if (!isClientCorrect(client)) {
             throw new InvalidEntityException("Client invalide, vérifiez les champs de la saisie.");
         }
-        Client newClient = new Client();
-        newClient.setNomComplet(nomComplet);
-        newClient.setEmail(email);
-        newClient.setTelephone(telephone);
-        newClient.setAdresse(adresse);
-        clientRepo.save(newClient);
-        return newClient;
+        clientRepo.save(client);
+        return client;
     }
 
     public Client update(int id, String nomComplet, String telephone, String email, String adresse) {
-        Client modifiedClient = clientRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with ID " + id));
+        Client modifiedClient = clientRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Le client n'a pas été trouvé avec l'ID " + id));
         modifiedClient.setNomComplet(nomComplet);
         modifiedClient.setTelephone(telephone);
         modifiedClient.setEmail(email);
