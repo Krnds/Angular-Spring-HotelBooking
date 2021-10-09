@@ -15,6 +15,17 @@ public class Reservation {
     private Date dateFin;
     private int numChambre;
 
+    public Reservation() {
+    }
+
+    public Reservation(Client client, Hotel hotel, Date dateDebut, Date dateFin, int numChambre) {
+        this.client = client;
+        this.hotel = hotel;
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
+        this.numChambre = numChambre;
+    }
+
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

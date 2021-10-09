@@ -60,8 +60,7 @@ public class ReservationController {
     @PostMapping(path = "", produces = "application/json")
     public ResponseEntity<Reservation> add(@RequestBody Reservation reservation) {
         try {
-            Reservation newReservation = reservationService.add(reservation.getClient(), reservation.getHotel()
-                    , reservation.getDateDebut(), reservation.getDateFin(), reservation.getNumChambre());
+            Reservation newReservation = reservationService.add(reservation);
 
             URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                     .path("/{id}")
