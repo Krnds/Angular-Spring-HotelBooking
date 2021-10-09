@@ -13,7 +13,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.persistence.EntityNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.util.Iterator;
 
 @RestController
 @RequestMapping("/api/resa")
@@ -34,21 +33,17 @@ public class ReservationController {
         return reservationService.findAll();
     }
 
-
+    //TODO: remplacer if/else par switch case ?
     @GetMapping(path = "/search", produces = "application/json")
-    public Iterable<Reservation> getAll(HttpServletRequest request) {
-            System.out.println("Valeur de l'ID client recherché = " + request.getParameter("client"));
+    public Iterable<Reservation> getReservationsByClientOrHotel(HttpServletRequest request) {
+        if  (request.getParameter("client") != null) {
             return reservationService.findByClientId(Integer.parseInt(request.getParameter("client")));
+        } else if (request.getParameter("hotel") != null){
+            return reservationService.findByHotelId(Integer.parseInt(request.getParameter("hotel")));
+        } else {
+            return reservationService.findAll();
+        }
     }
-
-//    @GetMapping(path = "/client/{id}", produces = "application/json")
-//    public Iterable<Reservation> getAll(@PathVariable("id") int idClient) {
-//        try {
-//           Iterable<Reservation> res = reservationService.findByClientId(idClient);
-//           return Respon
-//        }
-//        return reservationService.findAll();
-//    }
 
     @GetMapping(path = "/{id}", produces = "application/json")
     public ResponseEntity<Reservation> get(@PathVariable(value = "id") int id) {

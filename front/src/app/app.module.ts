@@ -13,6 +13,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 import { HotelComponent } from './hotel/hotel.component';
 import { ReservationComponent } from './reservation/reservation.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { ReservationComponent } from './reservation/reservation.component';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

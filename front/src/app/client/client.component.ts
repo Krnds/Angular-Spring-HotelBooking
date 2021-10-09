@@ -15,7 +15,7 @@ export class ClientComponent implements OnInit {
   @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
   error: boolean = false;
-  // currentVille: string | undefined;
+  errMessage : string = "";
   // search: String = "";
 
   constructor(private clientService: ClientService) { }
@@ -60,6 +60,7 @@ export class ClientComponent implements OnInit {
         error => {
           this.success = false;
           this.error = true;
+          this.errMessage = error.error.message;
         });
     }
   }
@@ -70,12 +71,20 @@ export class ClientComponent implements OnInit {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
+      },
+      error => {
+      this.error = true;
+      this.errMessage = error.error.message;
       })
     } else {
       this.clientService.editClient(this.newClient).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
+      },
+      error => {
+      this.error = true;
+      this.errMessage = error.error.message;
       })
     }
 

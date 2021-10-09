@@ -3,13 +3,13 @@
 <div class="d-flex justify-content-center m-4">
     <!-- Success Alert -->
     <div class="alert alert-success alert-dismissible fade show" *ngIf="success">
-        <strong>Succès : </strong>L'opération a bien été prise en compte
+        <span id="err-message">Succès</span> : L'opération a bien été prise en compte
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 
     <!-- Error Alert -->
     <div class="alert alert-danger alert-dismissible fade show" *ngIf="error">
-        <strong>Erreur : </strong>L'opération n'a pu être prise en compte
+        <span id="err-message">Erreur</span> : L'opération n'a pu être prise en compte
         <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
     </div>
 </div>
