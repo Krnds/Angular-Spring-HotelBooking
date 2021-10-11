@@ -12,4 +12,13 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  isUserConnected(): boolean {
+    if (sessionStorage.getItem("connectedUser")) {
+      return true;
+    } else {
+      return false;
+    }
+
+  }
+
 }

@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
     password: ""
   };
 
-  constructor(private adminService : AdminService, private router : Router) { }
+  constructor(private adminService: AdminService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,28 +24,22 @@ export class LoginComponent implements OnInit {
     this.adminService.authenticate(this.admin).subscribe(data => {
       if (data.id > 0) {
         sessionStorage.setItem("connectedUser", data);
-        //this.router.navigate(['client'])
-        //TODO: test to redirect to welcome page
         sessionStorage.setItem('loggedUser', data.username);
         this.router.navigate(['welcome']);
       } else {
         this.error = true;
       }
     },
-    error => {
-      this.error = true;
-    });
+      error => {
+        this.error = true;
+      });
   }
 
-
-  //TODO: implement logout route
-  // logout() {
-  //   this.adminService.logout(this.admin).subscribe(data => {
-  //     console.log("In logout method in login component");
-  //       console.log(data.toString);
-  //       console.log(sessionStorage.getItem("connectedUser"));
-  //       sessionStorage.removeItem("connectedUser");
-  //     });
-  // }
+  logout() {
+    this.adminService.logout(this.admin).subscribe(data => {
+      sessionStorage.clear();
+      this.router.navigate(['login'])
+    });
+  }
 
 }

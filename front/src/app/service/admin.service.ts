@@ -14,8 +14,7 @@ export class AdminService {
     return this.http.post<any>(environment.apiEndpoint + "login", admin, HttpOptions);
   }
 
-  //TODO: implement logout route
-  // logout(admin: any) {
-  //   return this.http.get(environment.apiEndpoint + "logout", HttpOptions);
-  // }
+  logout(admin: any) {
+    return this.http.get(environment.apiEndpoint + "logout", HttpOptions);
+  }
 }
