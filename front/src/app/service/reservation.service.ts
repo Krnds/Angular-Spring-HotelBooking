@@ -12,29 +12,25 @@ export class ReservationService {
 
   constructor(private http: HttpClient) { }
 
-  loadReservations() : Observable<Reservation[]> {
+  loadReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(environment.apiEndpoint + "resa", HttpOptions);
   }
 
-  loadReservationsByClient(idClient ?: number) : Observable<Reservation[]> {
+  loadReservationsByClient(idClient?: number): Observable<Reservation[]> {
 
     let query = "";
     if (idClient != undefined && idClient > 0) {
       query = "?client=" + idClient;
     }
-    console.log("In load reservations by client (reservation service), query =");
-    console.log(query);
     return this.http.get<Reservation[]>(environment.apiEndpoint + "resa/search" + query, HttpOptions);
   }
 
-  loadReservationsByHotel(idHotel ?: number) : Observable<Reservation[]> {
+  loadReservationsByHotel(idHotel?: number): Observable<Reservation[]> {
 
     let query = "";
     if (idHotel != undefined && idHotel > 0) {
       query = "?hotel=" + idHotel;
     }
-    console.log("In load reservations by client (reservation service), query =");
-    console.log(query);
     return this.http.get<Reservation[]>(environment.apiEndpoint + "resa/search" + query, HttpOptions);
   }
 

@@ -15,7 +15,7 @@ export class ClientComponent implements OnInit {
   @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
   error: boolean = false;
-  errMessage : string = "";
+  errMessage: string = "";
   // search: String = "";
 
   constructor(private clientService: ClientService) { }
@@ -34,7 +34,7 @@ export class ClientComponent implements OnInit {
   //   );
   // }
 
-    loadClients(): void {
+  loadClients(): void {
     this.clientService.loadClients().subscribe(
       data => {
         this.clients = data;
@@ -52,7 +52,7 @@ export class ClientComponent implements OnInit {
   }
 
   deleteClient(id?: number): void {
-    if (confirm("Voulez-vous vraiment supprimer ce client ?")) {
+    if (confirm("Voulez-vous vraiment supprimer ce client ? Cela va supprimer aussi les réservations associées.")) {
       this.clientService.deleteClient(id).subscribe(data => {
         this.loadClients();
         this.success = true;
@@ -71,28 +71,32 @@ export class ClientComponent implements OnInit {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
+        this.resetForm();
       },
-      error => {
-      this.error = true;
-      this.errMessage = error.error.message;
-      })
+        error => {
+          this.error = true;
+          this.errMessage = error.error.message;
+        })
     } else {
       this.clientService.editClient(this.newClient).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadClients();
         this.success = true;
+        this.resetForm();
       },
-      error => {
-      this.error = true;
-      this.errMessage = error.error.message;
-      })
+        error => {
+          this.error = true;
+          this.errMessage = error.error.message;
+        })
     }
 
   }
 
-  //TODO: ???
-  // comparePatientCity(v1: Ville, v2: Ville): boolean {
-  //   return v1 != undefined && v2 != undefined && v1.id == v2.id;
-  // }
+  resetForm(): void {
+    this.success = false;
+    this.error = false;
+    this.errMessage = "";
+    this.newClient = new Client();
+  }
 
 }

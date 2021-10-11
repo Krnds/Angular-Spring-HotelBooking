@@ -41,8 +41,6 @@ export class ClientService {
   }
 
   deleteClient(id?: number): Observable<any> {
-    console.log("service delete client");
-
     return this.http.delete<Client>(environment.apiEndpoint + "client/" + id, HttpOptions);
   }
 }

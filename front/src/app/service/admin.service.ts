@@ -11,8 +11,6 @@ export class AdminService {
   constructor(private http: HttpClient) { }
 
   authenticate(admin: any) {
-    console.log("in authenticate (admin service) :");
-    console.log(admin);
     return this.http.post<any>(environment.apiEndpoint + "login", admin, HttpOptions);
   }
 

@@ -14,54 +14,39 @@
     </div>
 </div>
 <h3 class="text-center mb-2 text-uppercase">Gestion des réservations hôtelières</h3>
-<!--
-<div class="container" id="container-search"> -->
-
 <form class="d-flex justify-content-around" id="search-container">
-<div class="input-group">
-        <!-- <div class="row align-items-center g-3 inline" id="search-container"> -->
-        <!-- <div id="input" class="input-group w-50 inline d-flex justify-content-between"> -->
-            <div class="search-label"><label for="client-search" class="form-label">Recherche de réservation par client :</label></div>
+    <div class="input-group">
+        <div class="search-label"><label for="client-search" class="form-label">Recherche de réservation par client
+                :</label></div>
         <select name="client-search" id="client-search" required class="form-select"
             [(ngModel)]="newReservation.client">
+            <option value="" selected></option>
             <option *ngFor="let client of clients" [ngValue]="client">Client n°{{client.id}} :
-                <strong>{{client.nomComplet}}</strong>
+                <span>{{client.nomComplet}}</span>
             </option>
         </select>
-    <button class="btn btn-outline-info my-2 my-sm-0" type="button"
-        (click)="loadReservationsByClient(newReservation.client?.id)">
-        <span class="material-icons-outlined">search</span></button>
-</div>
-<div class="input-group">
-    <!-- </div> -->
-    <!-- <div class="input-group w-50 inline d-flex justify-content-between"> -->
-        <div class="search-label"><label for="hotel-search" class="form-label">Recherche de réservation par hôtel :</label></div>
+        <button class="btn btn-outline-info my-2 my-sm-0" type="button"
+            (click)="loadReservationsByClient(newReservation.client?.id)">
+            <span class="material-icons-outlined">search</span></button>
+    </div>
+    <div class="input-group">
+        <div class="search-label"><label for="hotel-search" class="form-label">Recherche de réservation par hôtel
+                :</label></div>
+        <!-- TODO: ajouter [compareWith]="checkHotel"" -->
         <select name="hotel-search" id="hotel-search" required class="form-select" [(ngModel)]="newReservation.hotel">
+            <option value="" selected></option>
             <option *ngFor="let hotel of hotels" [ngValue]="hotel">Hôtel n°{{hotel.id}} :
-                <strong>{{hotel.nom}}</strong>
+                <span>{{hotel.nom}}</span>
             </option>
         </select>
-    <button class="btn btn-outline-info my-2 my-sm-0" type="button"
-        (click)="loadReservationsByHotel(newReservation.hotel?.id)">
-        <span class="material-icons-outlined">search</span></button>
+        <button class="btn btn-outline-info my-2 my-sm-0" type="button"
+            (click)="loadReservationsByHotel(newReservation.hotel?.id)">
+            <span class="material-icons-outlined">search</span></button>
 
-</div>
+    </div>
 </form>
 
-
-<!-- <div class="input-group sm mb-3 clearfix w-25">
-    <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un patient" aria-describedby="basic-addon1">
-    <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadPatients()">
-                <span class="material-icons-outlined">search</span></button>
-</div> -->
-
 <div class="d-flex justify-content-around mb-4">
-    <!-- TODO: when implement search bar -->
-    <!-- <div class="input-group sm mb-3 clearfix w-25">
-    <input type="text" [(ngModel)]="search" class="form-control" placeholder="Rechercher un reservation" aria-describedby="basic-addon1">
-    <button class="btn btn-outline-info my-2 my-sm-0" type="button" (click)="loadClients()">
-                <span class="material-icons-outlined">search</span></button>
-</div> -->
     <button type="button" class="btn btn-outline-info m-2" data-bs-toggle="modal" data-bs-target="#reservationModal">
         Ajouter reservation
     </button>
@@ -127,16 +112,13 @@
                 <form name="reservationForm" method="POST" (submit)="submitForm()">
                     <div class="form-row">
                         <div class="form-group form-floating mb-3">
-                            <!-- <input class="form-control" id="client" name="client" type="text" placeholder="client"
-                                required [(ngModel)]="newReservation.client"> -->
                             <select id="client" required name="client" class="form-select"
-                                [(ngModel)]="newReservation.client" [compareWith]="checkHotel">
-                                <option value="" selected disabled>Sélectionnez le nom du client</option>
+                                [(ngModel)]="newReservation.client" required>
                                 <option *ngFor="let client of clients" [ngValue]="client">
                                     {{client.nomComplet}}
                                 </option>
                             </select>
-                            <label for="client">Nom du client*</label>
+                            <label for="client">Client*</label>
 
                         </div>
                         <div class="form-group form-floating mb-3">
@@ -145,8 +127,8 @@
 
 
                             <select id="hotel" required name="hotel" class="form-select"
-                                [(ngModel)]="newReservation.hotel" [compareWith]="checkHotel">
-                                <option value="" selected disabled>Sélectionnez l'hôtel</option>
+                                [(ngModel)]="newReservation.hotel" required>
+                                <!-- <option value="" disabled selected>Sélectionnez l'hôtel</option> -->
                                 <option *ngFor="let hotel of hotels" [ngValue]="hotel">
                                     {{hotel.nom}}
                                 </option>
@@ -160,12 +142,13 @@
                     <div class="form-row">
                         <div class="form-group form-floating mb-3">
                             <input class="form-control" id="datedebut" name="datedebut" type="date" value=""
-                                placeholder="DD/MM/YYYY" required [(ngModel)]="newReservation.dateDebut">
+                                placeholder="DD/MM/YYYY" [min]="getTodayDate()" required
+                                [(ngModel)]="newReservation.dateDebut">
                             <label for="datedebut">Début de la réservation*</label>
                         </div>
                         <div class="form-group form-floating mb-3">
                             <input class="form-control" id="datefin" name="datefin" type="date" value=""
-                                placeholder="DD/MM/YYYY" required [min]="todayDate"
+                                placeholder="DD/MM/YYYY" required [min]="getTomorrowDate()"
                                 [(ngModel)]="newReservation.dateFin">
                             <label for="datefin">Fin de la réservation*</label>
                         </div>

@@ -74,12 +74,12 @@
                 </h5>
                 <h5 class="modal-title" id="exampleModalLabel" *ngIf="newClient.id != undefined">Modifier un client
                 </h5>
-                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal"
-                    aria-label="Close"></button>
+                <button type="button" #closebutton class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    (click)="resetForm()"></button>
             </div>
             <div class="modal-body">
                 <div *ngIf="error == true" class="alert alert-danger" role="alert"> Une erreur est survenue : <span
-                    id="err-message">{{errMessage}}</span></div>
+                        id="err-message">{{errMessage}}</span></div>
                 <form name="clientForm" method="POST" (submit)="submitForm()">
                     <div class="form-row">
                         <div class="form-group form-floating mb-3">

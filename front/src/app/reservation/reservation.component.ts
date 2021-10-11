@@ -22,68 +22,71 @@ export class ReservationComponent implements OnInit {
   @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
   error: boolean = false;
-  errMessage : string = "";
-  @Input() todayDate:Date = new Date();
+  errMessage: string = "";
 
-  constructor(private reservationService : ReservationService, private clientService : ClientService, private hotelService : HotelService,
-    private datePipe : DatePipe) { }
+  constructor(private reservationService: ReservationService, private clientService: ClientService, private hotelService: HotelService,
+    private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.transformDate();
-    console.log(this.transformDate());
     this.loadClients();
     this.loadHotels();
     this.loadReservations();
   }
 
-  transformDate() : string | null {
-    return this.datePipe.transform(this.todayDate, 'dd-MM-YYYY');
+  private getTodayDate(): string | null {
+    const todayDate: Date = new Date();
+    return this.datePipe.transform(todayDate, 'yyyy-MM-dd');
+  }
+
+  private getTomorrowDate(): string | null {
+    const tomorrowDate = new Date(new Date().setDate(new Date().getDate() + 1));
+    return this.datePipe.transform(tomorrowDate, 'yyyy-MM-dd');
   }
 
   loadReservations(): void {
+    console.log("in load reservations");
+    console.log(this.clients);
+
     this.reservationService.loadReservations().subscribe(
       data => {
         this.reservations = data;
-        console.log(data);
       }
     );
   }
 
   loadClients(): void {
     console.log("in load clients");
+    console.log(this.clients);
     this.clientService.loadClients().subscribe(data => {
       this.clients = data;
-      console.log(data);
     })
   }
 
-  loadReservationsByClient(id?: number) : void {
+  loadReservationsByClient(id?: number): void {
+    console.log("in load resa par client");
+    console.log(this.clients);
     this.reservationService.loadReservationsByClient(id).subscribe(data => {
       this.reservations = data;
-      console.log(data);
     })
   }
 
   loadHotels(): void {
-    console.log("in load hotels");
     this.hotelService.loadHotels().subscribe(data => {
       this.hotels = data;
-      console.log(data);
     })
   }
 
-  loadReservationsByHotel(id?: number) : void {
+  loadReservationsByHotel(id?: number): void {
     this.reservationService.loadReservationsByHotel(id).subscribe(data => {
       this.reservations = data;
-      console.log(data);
     })
   }
 
   editReservation(id?: number): void {
+    console.log("in edit reservations");
     this.reservationService.getReservation(id).subscribe(data => {
       this.newReservation = data;
       this.loadReservations();
-      // this.success = true;
     })
   }
 
@@ -106,27 +109,48 @@ export class ReservationComponent implements OnInit {
         this.closebuttonelement.nativeElement.click();
         this.loadReservations();
         this.success = true;
+        this.resetForm();
       },
-      error => {
-      this.error = true;
-      this.errMessage = error.error.message;
-      })
+        error => {
+          this.error = true;
+          this.errMessage = error.error.message;
+        })
     } else {
       this.reservationService.editReservation(this.newReservation).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadReservations();
         this.success = true;
+        this.resetForm();
       },
-      error => {
-      this.error = true;
-      this.errMessage = error.error.message;
-      })
+        error => {
+          this.error = true;
+          this.errMessage = error.error.message;
+        })
     }
 
   }
 
-  checkHotel( h1 : Hotel , h2 : Hotel ): boolean{
-    return h1 != undefined && h2 != undefined && h1.id == h2.id;
+  private resetForm(): void {
+    console.log("RESET FORM");
+    this.success = false;
+    this.error = false;
+    this.newReservation = new Reservation();
+    console.log(this.newReservation);
+
   }
+
+  // checkHotel(h1: Hotel, h2: Hotel): boolean {
+  //   console.log("in check for resa");
+  //   console.log(h1);
+  //   console.log(h2);
+  //   return h1 != undefined && h2 != undefined && h1.id == h2.id;
+  // }
+
+  // checkClient(c1: Client, c2: Client): boolean {
+  //   console.log("in check for clients");
+  //   console.log(c1);
+  //   console.log(c2);
+  //   return c1 != undefined && c2 != undefined && c1.id == c2.id;
+  // }
 
 }
