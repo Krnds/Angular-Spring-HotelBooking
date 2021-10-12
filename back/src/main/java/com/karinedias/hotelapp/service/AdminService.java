@@ -25,22 +25,4 @@ public class AdminService {
     public Admin findById(int id) {
         return adminRepo.findById(id).get();
     }
-
-//    public void add(Admin admin) {
-//        adminRepo.save(admin);
-//    }
-//
-//
-//    public Admin update(int id, String username, String password, String role) {
-//        Admin modifiedAdmin = adminRepo.findById(id).get();
-//        modifiedAdmin.setUsername(username);
-//        //TODO: attention là dessus !
-//        modifiedAdmin.setPassword(encoder.encode(modifiedAdmin.getPassword()));
-//        modifiedAdmin.setRole(role);
-//        return adminRepo.save(modifiedAdmin);
-//    }
-//
-//    public void delete(int id) {
-//        adminRepo.deleteById(id);
-//    }
 }

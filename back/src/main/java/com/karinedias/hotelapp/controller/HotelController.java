@@ -21,13 +21,6 @@ public class HotelController {
     @Autowired
     HotelService hotelService;
 
-    //TODO: uniquement si terme(s) de recherche
-//    @GetMapping(path="", produces="application/json")
-//    public Iterable<Hotel> getAll(HttpServletRequest request) {
-//        System.out.println("Valeur recherchée : " + request.getParameter("search"));
-//        return hotelService.findAll(request.getParameter("search"));
-//    }
-
     @GetMapping(path = "", produces = "application/json")
     public Iterable<Hotel> getAll(HttpServletRequest request) {
         return hotelService.findAll();

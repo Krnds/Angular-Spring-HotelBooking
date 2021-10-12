@@ -21,19 +21,11 @@ public class ReservationController {
     @Autowired
     ReservationService reservationService;
 
-    //TODO: uniquement si terme(s) de recherche
-//    @GetMapping(path="", produces="application/json")
-//    public Iterable<Reservation> getAll(HttpServletRequest request) {
-//        System.out.println("Valeur recherchée : " + request.getParameter("search"));
-//        return reservationService.findAll(request.getParameter("search"));
-//    }
-
     @GetMapping(path = "", produces = "application/json")
     public Iterable<Reservation> getAll() {
         return reservationService.findAll();
     }
 
-    //TODO: remplacer if/else par switch case ?
     @GetMapping(path = "/search", produces = "application/json")
     public Iterable<Reservation> getReservationsByClientOrHotel(HttpServletRequest request) {
         if  (request.getParameter("client") != null) {

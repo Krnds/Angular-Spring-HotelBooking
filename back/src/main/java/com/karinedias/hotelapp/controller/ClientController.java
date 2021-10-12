@@ -21,13 +21,6 @@ public class ClientController {
     @Autowired
     ClientService clientService;
 
-    //TODO: uniquement si terme(s) de recherche
-//    @GetMapping(path="", produces="application/json")
-//    public Iterable<Client> getAll(HttpServletRequest request) {
-//        System.out.println("Valeur recherchée : " + request.getParameter("search"));
-//        return clientService.findAll(request.getParameter("search"));
-//    }
-
     @GetMapping(path = "", produces = "application/json")
     public Iterable<Client> getAll(HttpServletRequest request) {
         return clientService.findAll();

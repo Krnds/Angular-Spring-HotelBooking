@@ -33,11 +33,6 @@ public class ReservationService {
         if (id == 0) {
             return reservationRepo.findAll();
         } else {
-            System.out.println("Id du client à rechercher = " + id);
-            List<Reservation> resaTrouvees = reservationRepo.findById(id).stream().toList();
-            for (Reservation r : resaTrouvees) {
-                System.out.println(r.toString());
-            }
             return reservationRepo.findByClientId(id);
         }
     }
@@ -46,11 +41,6 @@ public class ReservationService {
         if (id == 0) {
             return reservationRepo.findAll();
         } else {
-            System.out.println("Id de l'hôtel à rechercher = " + id);
-            List<Reservation> resaTrouvees = reservationRepo.findById(id).stream().toList();
-            for (Reservation r : resaTrouvees) {
-                System.out.println(r.toString());
-            }
             return reservationRepo.findByHotelId(id);
         }
     }
