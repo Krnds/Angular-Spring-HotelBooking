@@ -19,28 +19,28 @@
         <div class="search-label"><label for="client-search" class="form-label">Recherche de réservation par client
                 :</label></div>
         <select name="client-search" id="client-search" required class="form-select"
-            [(ngModel)]="newReservation.client">
+            [(ngModel)]="newReservationSearch.client">
             <option value="" selected></option>
             <option *ngFor="let client of clients" [ngValue]="client">Client n°{{client.id}} :
                 <span>{{client.nomComplet}}</span>
             </option>
         </select>
         <button class="btn btn-outline-info my-2 my-sm-0" type="button"
-            (click)="loadReservationsByClient(newReservation.client?.id)">
+            (click)="loadReservationsByClient(newReservationSearch.client?.id)">
             <span class="material-icons-outlined">search</span></button>
     </div>
     <div class="input-group">
         <div class="search-label"><label for="hotel-search" class="form-label">Recherche de réservation par hôtel
                 :</label></div>
-        <!-- TODO: ajouter [compareWith]="checkHotel"" -->
-        <select name="hotel-search" id="hotel-search" required class="form-select" [(ngModel)]="newReservation.hotel">
+        <select name="hotel-search" id="hotel-search" required class="form-select"
+            [(ngModel)]="newReservationSearch.hotel">
             <option value="" selected></option>
             <option *ngFor="let hotel of hotels" [ngValue]="hotel">Hôtel n°{{hotel.id}} :
                 <span>{{hotel.nom}}</span>
             </option>
         </select>
         <button class="btn btn-outline-info my-2 my-sm-0" type="button"
-            (click)="loadReservationsByHotel(newReservation.hotel?.id)">
+            (click)="loadReservationsByHotel(newReservationSearch.hotel?.id)">
             <span class="material-icons-outlined">search</span></button>
 
     </div>
@@ -112,7 +112,7 @@
                 <form name="reservationForm" method="POST" (submit)="submitForm()">
                     <div class="form-row">
                         <div class="form-group form-floating mb-3">
-                            <select id="client" required name="client" class="form-select"
+                            <select id="client" required name="client" class="form-select" [compareWith]="checkClient"
                                 [(ngModel)]="newReservation.client" required>
                                 <option *ngFor="let client of clients" [ngValue]="client">
                                     {{client.nomComplet}}
@@ -122,13 +122,8 @@
 
                         </div>
                         <div class="form-group form-floating mb-3">
-                            <!-- <input class="form-control" id="hotel" name="hotel" type="text" placeholder="hotel" required
-                                [(ngModel)]="newReservation.hotel"> -->
-
-
-                            <select id="hotel" required name="hotel" class="form-select"
+                            <select id="hotel" required name="hotel" class="form-select" [compareWith]="checkHotel"
                                 [(ngModel)]="newReservation.hotel" required>
-                                <!-- <option value="" disabled selected>Sélectionnez l'hôtel</option> -->
                                 <option *ngFor="let hotel of hotels" [ngValue]="hotel">
                                     {{hotel.nom}}
                                 </option>

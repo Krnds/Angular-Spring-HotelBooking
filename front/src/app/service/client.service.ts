@@ -13,18 +13,7 @@ export class ClientService {
 
   constructor(private http: HttpClient) { }
 
-
-  //TODO: add loadClients with search bar
-  // loadClients(search: String): Observable<Client[]> {
-  //   let searchCondition = ""
-  //   if (search.length > 0) {
-  //     searchCondition = "?search=" + search;
-  //   }
-  //   console.log("recherche des clients");
-  //   return this.http.get<Client[]>(environment.apiEndpoint + "client" + searchCondition, HttpOptions);
-  // }
-
-  loadClients() : Observable<Client[]> {
+  loadClients(): Observable<Client[]> {
     return this.http.get<Client[]>(environment.apiEndpoint + "client", HttpOptions);
   }
 

@@ -24,21 +24,10 @@ export class ClientComponent implements OnInit {
     this.loadClients();
   }
 
-  //TODO: to implement when search bar
-  // loadClients(): void {
-  //   this.clientService.loadClients(this.search).subscribe(
-  //     data => {
-  //       this.clients = data;
-  //       console.log(data);
-  //     }
-  //   );
-  // }
-
   loadClients(): void {
     this.clientService.loadClients().subscribe(
       data => {
         this.clients = data;
-        console.log(data);
       }
     );
   }

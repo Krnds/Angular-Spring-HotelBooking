@@ -18,6 +18,9 @@ export class ReservationComponent implements OnInit {
   clients: Array<Client> = [];
   hotels: Array<Hotel> = [];
 
+  //TODO: test
+  newReservationSearch: Reservation = new Reservation();
+
   reservations: Array<Reservation> = [];
   @ViewChild('closebutton') closebuttonelement: any;
   success: boolean = false;
@@ -44,9 +47,6 @@ export class ReservationComponent implements OnInit {
   }
 
   loadReservations(): void {
-    console.log("in load reservations");
-    console.log(this.clients);
-
     this.reservationService.loadReservations().subscribe(
       data => {
         this.reservations = data;
@@ -55,16 +55,12 @@ export class ReservationComponent implements OnInit {
   }
 
   loadClients(): void {
-    console.log("in load clients");
-    console.log(this.clients);
     this.clientService.loadClients().subscribe(data => {
       this.clients = data;
     })
   }
 
   loadReservationsByClient(id?: number): void {
-    console.log("in load resa par client");
-    console.log(this.clients);
     this.reservationService.loadReservationsByClient(id).subscribe(data => {
       this.reservations = data;
     })
@@ -83,7 +79,6 @@ export class ReservationComponent implements OnInit {
   }
 
   editReservation(id?: number): void {
-    console.log("in edit reservations");
     this.reservationService.getReservation(id).subscribe(data => {
       this.newReservation = data;
       this.loadReservations();
@@ -131,26 +126,18 @@ export class ReservationComponent implements OnInit {
   }
 
   private resetForm(): void {
-    console.log("RESET FORM");
     this.success = false;
     this.error = false;
     this.newReservation = new Reservation();
-    console.log(this.newReservation);
 
   }
 
-  // checkHotel(h1: Hotel, h2: Hotel): boolean {
-  //   console.log("in check for resa");
-  //   console.log(h1);
-  //   console.log(h2);
-  //   return h1 != undefined && h2 != undefined && h1.id == h2.id;
-  // }
+  checkHotel(h1: Hotel, h2: Hotel): boolean {
+    return h1 != undefined && h2 != undefined && h1.id == h2.id;
+  }
 
-  // checkClient(c1: Client, c2: Client): boolean {
-  //   console.log("in check for clients");
-  //   console.log(c1);
-  //   console.log(c2);
-  //   return c1 != undefined && c2 != undefined && c1.id == c2.id;
-  // }
+  checkClient(c1: Client, c2: Client): boolean {
+    return c1 != undefined && c2 != undefined && c1.id == c2.id;
+  }
 
 }

@@ -52,15 +52,12 @@ export class HotelComponent implements OnInit {
   }
 
   submitForm(): void {
-    this.errMessage = "";
     if (this.newHotel.id == undefined) {
-      console.log("in add new hotel");
       this.hotelService.addHotel(this.newHotel).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadHotels();
         this.success = true;
         this.resetForm();
-        console.log(this.newHotel);
       },
 
         error => {
@@ -68,13 +65,11 @@ export class HotelComponent implements OnInit {
           this.errMessage = error.error.message;
         })
     } else {
-      console.log("in edithotel");
       this.hotelService.editHotel(this.newHotel).subscribe(data => {
         this.closebuttonelement.nativeElement.click();
         this.loadHotels();
         this.success = true;
         this.resetForm();
-        console.log(this.newHotel);
       },
         error => {
           this.error = true;
