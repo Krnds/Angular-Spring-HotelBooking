@@ -74,7 +74,7 @@ public class ReservationController {
                     reservation.getClient(), reservation.getHotel(), reservation.getDateDebut(), reservation.getDateFin(), reservation.getNumChambre());
             return ResponseEntity.ok()
                     .body(updatedReservation);
-        } catch (Exception e) {
+        } catch (Exception | InvalidEntityException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, e.getMessage());
         }
 

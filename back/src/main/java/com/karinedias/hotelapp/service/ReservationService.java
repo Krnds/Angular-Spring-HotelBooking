@@ -74,13 +74,22 @@ public class ReservationService {
         return reservation;
     }
 
-    public Reservation update(int id, Client client, Hotel hotel, Date dateDebut, Date dateFin, int numChambre) {
-        Reservation modifiedReservation = reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Reservation not found with ID " + id));
+    public Reservation update(int id, Client client, Hotel hotel, Date dateDebut, Date dateFin, int numChambre) throws InvalidEntityException {
+        Reservation modifiedReservation = reservationRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("La réservation avec l'identifiant "
+                + id + " n'a pas été trouvée."));
         modifiedReservation.setClient(client);
         modifiedReservation.setHotel(hotel);
         modifiedReservation.setDateDebut(dateDebut);
         modifiedReservation.setDateFin(dateFin);
         modifiedReservation.setNumChambre(numChambre);
+        if (!isReservationCorrect(modifiedReservation)) {
+            throw new InvalidEntityException("Modification de la réservation invalide : " +
+                    "veuillez vérifiez tous les champs.");
+        }
+        if (isReservationUnavailable(modifiedReservation)) {
+            throw new InvalidEntityException("Modification de la réservation invalide : " +
+                    "une autre réservation pour cette chambre existe dejà pour ces dates.");
+        }
         return reservationRepo.save(modifiedReservation);
     }
 
