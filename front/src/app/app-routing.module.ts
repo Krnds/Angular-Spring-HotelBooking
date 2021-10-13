@@ -10,8 +10,6 @@ import { WelcomePageComponent } from './welcome-page/welcome-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  //TODO: add /addedit/:id route if routerlink ?
-  // { path: 'hotels/addedit/:id', component: RdvDetailsComponent },
   {
     path: '', component: MainComponent, canActivate: [AuthGuard], children:
       [
@@ -21,7 +19,7 @@ const routes: Routes = [
         { path: 'reservation', component: ReservationComponent, canActivate: [AuthGuard] }
       ]
   },
-  { path: '**', redirectTo: 'login' } //TODO: à voir
+  { path: '**', redirectTo: 'login' }
 ];
 
 @NgModule({
