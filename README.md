@@ -56,6 +56,6 @@ When the app is running, connect to app using credentials : `admin` for ID and `
 
 ## TODO
 
-- [ ] Add SpringBoot database auto initialization
+- [X] Add SpringBoot database auto initialization
 - [ ] Add timeout for Bootstrap alerts and messages
-- [ ] Add some new JUnit5 tests
+- [X] Add some new JUnit5 tests
